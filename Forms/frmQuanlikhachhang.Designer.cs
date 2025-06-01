@@ -304,7 +304,7 @@ namespace quanlikhachhang
         private System.Windows.Forms.Button btnLuu;
         private System.Windows.Forms.Button btnTimkiem;
         private System.Windows.Forms.Button btnDong;
-        private QuanLyThueSachDataSet quanLyThueSachDataSet;
+       //private QuanLyThueSachDataSet quanLyThueSachDataSet;
        // private QuanLyThueSachDataSetTableAdapters.KhachHangTableAdapter khachHangTableAdapter;
         private System.Windows.Forms.MaskedTextBox mskSdt;
         private System.Windows.Forms.DateTimePicker dtNgaysinh;
