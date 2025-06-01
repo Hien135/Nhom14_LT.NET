@@ -1,3 +1,4 @@
+
 using Nhom14_LT.NET;
 namespace quanlikhachhang
 {
@@ -45,13 +46,13 @@ namespace quanlikhachhang
             this.btnLuu = new System.Windows.Forms.Button();
             this.btnTimkiem = new System.Windows.Forms.Button();
             this.btnDong = new System.Windows.Forms.Button();
-            this.quanLyThueSachDataSet = new quanlikhachhang.QuanLyThueSachDataSet();
-            this.khachHangTableAdapter = new quanlikhachhang.QuanLyThueSachDataSetTableAdapters.KhachHangTableAdapter();
+            //this.quanLyThueSachDataSet = new quanlikhachhang.QuanLyThueSachDataSet();
+            //this.khachHangTableAdapter = new quanlikhachhang.QuanLyThueSachDataSetTableAdapters.KhachHangTableAdapter();
             this.mskSdt = new System.Windows.Forms.MaskedTextBox();
             this.dtNgaysinh = new System.Windows.Forms.DateTimePicker();
             this.cboGioitinh = new System.Windows.Forms.ComboBox();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            ((System.ComponentModel.ISupportInitialize)(this.quanLyThueSachDataSet)).BeginInit();
+           // ((System.ComponentModel.ISupportInitialize)(this.quanLyThueSachDataSet)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -210,12 +211,12 @@ namespace quanlikhachhang
             // 
             // quanLyThueSachDataSet
             // 
-            this.quanLyThueSachDataSet.DataSetName = "QuanLyThueSachDataSet";
-            this.quanLyThueSachDataSet.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
+            //this.quanLyThueSachDataSet.DataSetName = "QuanLyThueSachDataSet";
+            //this.quanLyThueSachDataSet.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
             // 
             // khachHangTableAdapter
             // 
-            this.khachHangTableAdapter.ClearBeforeFill = true;
+          //  this.khachHangTableAdapter.ClearBeforeFill = true;
             // 
             // mskSdt
             // 
@@ -278,7 +279,7 @@ namespace quanlikhachhang
             this.Name = "frmQLKH";
             this.Text = "Quản lý khách hàng";
             this.Load += new System.EventHandler(this.frmQLKH_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.quanLyThueSachDataSet)).EndInit();
+           // ((System.ComponentModel.ISupportInitialize)(this.quanLyThueSachDataSet)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -304,7 +305,7 @@ namespace quanlikhachhang
         private System.Windows.Forms.Button btnTimkiem;
         private System.Windows.Forms.Button btnDong;
         private QuanLyThueSachDataSet quanLyThueSachDataSet;
-        private QuanLyThueSachDataSetTableAdapters.KhachHangTableAdapter khachHangTableAdapter;
+       // private QuanLyThueSachDataSetTableAdapters.KhachHangTableAdapter khachHangTableAdapter;
         private System.Windows.Forms.MaskedTextBox mskSdt;
         private System.Windows.Forms.DateTimePicker dtNgaysinh;
         private System.Windows.Forms.ComboBox cboGioitinh;
