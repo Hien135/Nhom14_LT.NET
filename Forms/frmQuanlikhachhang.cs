@@ -82,77 +82,143 @@ namespace quanlikhachhang
         }
 
         private void btnLuu_Click(object sender, EventArgs e)
-        {
-            if (CheckMaTrung(txtMakhach.Text))
-            {
-                MessageBox.Show("Mã khách đã tồn tại!");
-                return;
-            }
-            try
-            {
-                if (conn.State == ConnectionState.Open) conn.Close();
-                conn.Open();
-                string sql = "INSERT INTO KhachHang VALUES (@Ma, @Ten, @NgaySinh, @GT, @DiaChi, @SDT)";
-                SqlCommand cmd = new SqlCommand(sql, conn);
-                cmd.Parameters.AddWithValue("@Ma", txtMakhach.Text);
-                cmd.Parameters.AddWithValue("@Ten", txtTenkhach.Text);
-                cmd.Parameters.AddWithValue("@NgaySinh", dtNgaysinh.Value);
-                cmd.Parameters.AddWithValue("@GT", cboGioitinh.Text);
-                cmd.Parameters.AddWithValue("@DiaChi", txtDiachi.Text);
-                cmd.Parameters.AddWithValue("@SDT", mskSdt.Text);
-                cmd.ExecuteNonQuery();
-                LoadData();
-                MessageBox.Show("Thêm thành công!");
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Lỗi lưu: " + ex.Message);
-            }
-            finally
-            {
-                conn.Close();
-            }
-        }
+ {
+     string maKhach = txtMakhach.Text.Trim();
+     string tenKhach = txtTenkhach.Text.Trim();
+     string diaChi = txtDiachi.Text.Trim();
+     string gioiTinh = cboGioitinh.Text.Trim();
+     string soDienThoai = mskSdt.Text.Trim().Replace(" ", "");
 
-        private void btnSua_Click(object sender, EventArgs e)
-        {
-            if (string.IsNullOrWhiteSpace(txtMakhach.Text))
-            {
-                MessageBox.Show("Vui lòng chọn khách hàng cần sửa từ bảng hoặc nhập mã khách.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
+     // Kiểm tra rỗng
+     if (string.IsNullOrEmpty(maKhach) || string.IsNullOrEmpty(tenKhach) ||
+         string.IsNullOrEmpty(diaChi) || string.IsNullOrEmpty(gioiTinh) ||
+         string.IsNullOrEmpty(soDienThoai))
+     {
+         MessageBox.Show("Vui lòng nhập đầy đủ thông tin!", "Thiếu thông tin", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+         return;
+     }
 
-            DialogResult result = MessageBox.Show("Bạn có chắc muốn sửa thông tin khách này?", "Xác nhận sửa", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-            if (result == DialogResult.No) return;
+     // Kiểm tra định dạng mã khách: KH + 6 số
+     if (!System.Text.RegularExpressions.Regex.IsMatch(maKhach, @"^KH\d{6}$"))
+     {
+         MessageBox.Show("Mã khách phải đúng định dạng KHxxxxxx (ví dụ: KH000123)", "Lỗi định dạng", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+         return;
+     }
 
-            try
-            {
-                if (conn.State == ConnectionState.Open) conn.Close();
-                conn.Open();
-                string sql = "UPDATE KhachHang SET TenKhach = @Ten, NgaySinh = @NgaySinh, GioiTinh = @GT, DiaChi = @DiaChi, DienThoai = @SDT WHERE MaKhach = @Ma";
-                SqlCommand cmd = new SqlCommand(sql, conn);
-                cmd.Parameters.AddWithValue("@Ma", txtMakhach.Text);
-                cmd.Parameters.AddWithValue("@Ten", txtTenkhach.Text);
-                cmd.Parameters.AddWithValue("@NgaySinh", dtNgaysinh.Value);
-                cmd.Parameters.AddWithValue("@GT", cboGioitinh.Text);
-                cmd.Parameters.AddWithValue("@DiaChi", txtDiachi.Text);
-                cmd.Parameters.AddWithValue("@SDT", mskSdt.Text);
-                int rows = cmd.ExecuteNonQuery();
-                LoadData();
-                if (rows > 0)
-                    MessageBox.Show("Sửa thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                else
-                    MessageBox.Show("Không tìm thấy khách để sửa.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Lỗi sửa: " + ex.Message);
-            }
-            finally
-            {
-                conn.Close();
-            }
-        }
+     // Kiểm tra định dạng số điện thoại: 10 chữ số
+     if (!System.Text.RegularExpressions.Regex.IsMatch(soDienThoai, @"^\d{10}$"))
+     {
+         MessageBox.Show("Số điện thoại phải gồm 10 chữ số!", "Lỗi định dạng", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+         return;
+     }
+
+     // Kiểm tra mã trùng
+     if (CheckMaTrung(maKhach))
+     {
+         MessageBox.Show("Mã khách đã tồn tại!", "Trùng mã", MessageBoxButtons.OK, MessageBoxIcon.Error);
+         return;
+     }
+
+     try
+     {
+         if (conn.State == ConnectionState.Open) conn.Close();
+         conn.Open();
+         string sql = "INSERT INTO KhachHang VALUES (@Ma, @Ten, @NgaySinh, @GT, @DiaChi, @SDT)";
+         SqlCommand cmd = new SqlCommand(sql, conn);
+         cmd.Parameters.AddWithValue("@Ma", maKhach);
+         cmd.Parameters.AddWithValue("@Ten", tenKhach);
+         cmd.Parameters.AddWithValue("@NgaySinh", dtNgaysinh.Value);
+         cmd.Parameters.AddWithValue("@GT", gioiTinh);
+         cmd.Parameters.AddWithValue("@DiaChi", diaChi);
+         cmd.Parameters.AddWithValue("@SDT", soDienThoai);
+         cmd.ExecuteNonQuery();
+         LoadData();
+         MessageBox.Show("Thêm thành công!");
+     }
+     catch (Exception ex)
+     {
+         MessageBox.Show("Lỗi lưu: " + ex.Message);
+     }
+     finally
+     {
+         conn.Close();
+     }
+ }
+
+
+ private void btnSua_Click(object sender, EventArgs e)
+ {
+     string maKhach = txtMakhach.Text.Trim();
+     string tenKhach = txtTenkhach.Text.Trim();
+     string diaChi = txtDiachi.Text.Trim();
+     string gioiTinh = cboGioitinh.Text.Trim();
+     string soDienThoai = mskSdt.Text.Trim().Replace(" ", "");
+     DateTime ngaySinh = dtNgaysinh.Value;
+
+     if (string.IsNullOrWhiteSpace(maKhach))
+     {
+         MessageBox.Show("Vui lòng chọn khách hàng cần sửa từ bảng hoặc nhập mã khách.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+         return;
+     }
+
+     // Kiểm tra định dạng mã khách
+     if (!System.Text.RegularExpressions.Regex.IsMatch(maKhach, @"^KH\d{6}$"))
+     {
+         MessageBox.Show("Mã khách phải đúng định dạng: KH + 6 chữ số (ví dụ: KH000123)", "Lỗi định dạng", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+         return;
+     }
+
+     // Kiểm tra số điện thoại
+     if (!System.Text.RegularExpressions.Regex.IsMatch(soDienThoai, @"^\d{10}$"))
+     {
+         MessageBox.Show("Số điện thoại phải gồm đúng 10 chữ số!", "Lỗi định dạng", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+         return;
+     }
+
+     // Kiểm tra dữ liệu có thay đổi không
+     DataGridViewRow selectedRow = dataGridView1.CurrentRow;
+     if (selectedRow != null &&
+         tenKhach == selectedRow.Cells["TenKhach"].Value.ToString() &&
+         ngaySinh == Convert.ToDateTime(selectedRow.Cells["NgaySinh"].Value) &&
+         gioiTinh == selectedRow.Cells["GioiTinh"].Value.ToString() &&
+         diaChi == selectedRow.Cells["DiaChi"].Value.ToString() &&
+         soDienThoai == selectedRow.Cells["DienThoai"].Value.ToString())
+     {
+         MessageBox.Show("Bạn chưa thay đổi dữ liệu nào!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+         return;
+     }
+
+     DialogResult result = MessageBox.Show("Bạn có chắc muốn sửa thông tin khách này?", "Xác nhận sửa", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+     if (result == DialogResult.No) return;
+
+     try
+     {
+         if (conn.State == ConnectionState.Open) conn.Close();
+         conn.Open();
+         string sql = "UPDATE KhachHang SET TenKhach = @Ten, NgaySinh = @NgaySinh, GioiTinh = @GT, DiaChi = @DiaChi, DienThoai = @SDT WHERE MaKhach = @Ma";
+         SqlCommand cmd = new SqlCommand(sql, conn);
+         cmd.Parameters.AddWithValue("@Ma", maKhach);
+         cmd.Parameters.AddWithValue("@Ten", tenKhach);
+         cmd.Parameters.AddWithValue("@NgaySinh", ngaySinh);
+         cmd.Parameters.AddWithValue("@GT", gioiTinh);
+         cmd.Parameters.AddWithValue("@DiaChi", diaChi);
+         cmd.Parameters.AddWithValue("@SDT", soDienThoai);
+         int rows = cmd.ExecuteNonQuery();
+         LoadData();
+         if (rows > 0)
+             MessageBox.Show("Sửa thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+         else
+             MessageBox.Show("Không tìm thấy khách để sửa.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+     }
+     catch (Exception ex)
+     {
+         MessageBox.Show("Lỗi sửa: " + ex.Message);
+     }
+     finally
+     {
+         conn.Close();
+     }
+ }
 
         private void btnXoa_Click(object sender, EventArgs e)
         {
