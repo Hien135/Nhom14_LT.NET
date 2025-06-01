@@ -1,4 +1,5 @@
-﻿namespace quanlikhachhang
+using Nhom14_LT.NET;
+namespace quanlikhachhang
 {
     partial class frmQLKH
     {
