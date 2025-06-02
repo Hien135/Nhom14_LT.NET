@@ -9,11 +9,11 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Data.SqlClient;
 
-namespace quanlikhachhang
+namespace Nhom14_LT.NET
 {
     public partial class frmQLKH : Form
     {
-        SqlConnection conn = new SqlConnection(@"Data Source=.;Initial Catalog=QuanLyThueSach;Integrated Security=True");
+        SqlConnection conn = new SqlConnection(@"Data Source=DESKTOP-3UJ3HN4\SQLEXPRESS.;Initial Catalog=QuanLyThueSach;Integrated Security=True");
 
         public frmQLKH()
         {

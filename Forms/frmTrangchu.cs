@@ -9,7 +9,6 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Nhom14_LT.NET; 
 
-using quanlikhachhang;
 namespace Nhom14_LT.NET
 {
     public partial class frmTrangchu : Form
@@ -29,5 +28,10 @@ namespace Nhom14_LT.NET
      frmQLKH f = new frmQLKH();
      f.ShowDialog();
  }
- }
+
+        private void frmTrangchu_Load_1(object sender, EventArgs e)
+        {
+
+        }
+    }
 }

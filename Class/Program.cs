@@ -16,7 +16,7 @@ namespace Nhom14_LT.NET
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new frmTrangchu());
+            Application.Run(new frmTrangChu());
         }
     }
 }
